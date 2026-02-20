@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Player</title>
+    <style>
+        /* পুরো পেজটি কালো করা হয়েছে */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        /* প্লে/পজ বাটনের ডিজাইন */
+        #playPauseBtn {
+            cursor: pointer;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+
+        #playPauseBtn:active {
+            transform: scale(0.9);
+        }
+
+        /* আইকনের স্টাইল (সাদা রঙ) */
+        svg {
+            fill: white;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="playPauseBtn">
+        <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </div>
+
+    <audio id="myAudio" src="https://github.com/HumayunShariarHimu/HappyRamadan/raw/refs/heads/main/AllahuTone.mp3"></audio>
+
+    <script>
+        const audio = document.getElementById('myAudio');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            } else {
+                audio.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+        });
+
+        // অডিও শেষ হয়ে গেলে আবার প্লে আইকন দেখাবে
+        audio.onended = () => {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+        };
+    </script>
+
+</body>
+</html>
