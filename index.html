@@ -2,281 +2,883 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>HappyRamadan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #05070a;
-            --card-bg: #0f172a;
-            --neon-gold: #ffcc00;
-            --neon-blue: #00d4ff;
-            --neon-green: #39ff14;
-            --neon-red: #ff3131;
-            --shadow-gold: 0 0 15px #ffcc00, 0 0 5px #ffcc00;
+            --bg: #060810;
+            --card: #0b0f1e;
+            --card2: #0f1628;
+            --gold: #e8c96b;
+            --gold-bright: #ffd700;
+            --gold-dim: rgba(232,201,107,0.15);
+            --teal: #00c9a7;
+            --red: #ff6b6b;
+            --blue: #60a5fa;
+            --text: #e8e0d0;
+            --text-muted: #8b8474;
+            --border: rgba(232,201,107,0.12);
+            --shadow-gold: 0 0 20px rgba(232,201,107,0.3), 0 0 60px rgba(232,201,107,0.1);
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 
         body {
-            margin: 0;
-            padding: 0;
             font-family: 'Hind Siliguri', sans-serif;
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(255, 204, 0, 0.05) 0%, transparent 50%);
-            color: #e2e8f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 450px;
-            background: var(--card-bg);
-            border-radius: 30px;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
             position: relative;
         }
 
-        /* Islamic Moon & Stars Icon */
-        .islamic-header {
-            font-size: 2.5rem;
-            color: var(--neon-gold);
-            text-shadow: var(--shadow-gold);
-            margin-bottom: 10px;
+        /* ── Starfield Background ── */
+        .stars {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,201,107,0.05) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,201,167,0.04) 0%, transparent 50%);
+        }
+        .stars::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.7) 0%, transparent 100%),
+                radial-gradient(1px 1px at 25% 5%, rgba(255,255,255,0.5) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 40% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+                radial-gradient(1px 1px at 55% 8%, rgba(255,255,255,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 70% 12%, rgba(255,255,255,0.7) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 85% 3%, rgba(255,255,255,0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 15% 40%, rgba(255,255,255,0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 90% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 35% 55%, rgba(255,255,255,0.2) 0%, transparent 100%),
+                radial-gradient(1px 1px at 65% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 5% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 78% 65%, rgba(255,255,255,0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 92% 88%, rgba(255,255,255,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 20% 92%, rgba(255,255,255,0.2) 0%, transparent 100%);
         }
 
-        h1 {
-            font-size: 1.6rem;
-            margin: 0;
-            color: #fff;
-            letter-spacing: 1px;
+        /* ── Geometric Pattern Overlay ── */
+        .pattern-overlay {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30Z' fill='none' stroke='%23e8c96b' stroke-width='0.5'/%3E%3Cpath d='M30 10 L50 30 L30 50 L10 30Z' fill='none' stroke='%23e8c96b' stroke-width='0.5'/%3E%3C/svg%3E");
         }
 
-        #loc-text {
-            font-size: 0.8rem;
-            color: var(--neon-blue);
-            margin-bottom: 25px;
+        /* ── Scrollable Layout ── */
+        .page {
+            position: relative; z-index: 1;
+            padding: 16px;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 16px;
+            max-width: 480px; margin: 0 auto;
+            padding-bottom: 40px;
+        }
+
+        /* ── Header ── */
+        .header {
+            width: 100%; text-align: center; padding: 24px 0 8px;
+            animation: fadeDown 0.8s ease both;
+        }
+
+        .crescent-wrap {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 72px; height: 72px;
+            background: radial-gradient(circle, rgba(232,201,107,0.12) 0%, transparent 70%);
+            border: 1px solid rgba(232,201,107,0.2);
+            border-radius: 50%;
+            margin-bottom: 12px;
+            animation: glow-pulse 3s ease-in-out infinite;
+            position: relative;
+        }
+        .crescent-wrap::after {
+            content: '';
+            position: absolute; inset: -4px;
+            border-radius: 50%;
+            border: 1px solid rgba(232,201,107,0.08);
+            animation: glow-pulse 3s ease-in-out infinite reverse;
+        }
+        .crescent-icon { font-size: 2.4rem; filter: drop-shadow(0 0 12px rgba(232,201,107,0.6)); }
+
+        .app-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.7rem; font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-shadow: 0 0 30px rgba(232,201,107,0.4);
             text-transform: uppercase;
         }
-
-        /* Timer Grid */
-        .timer-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
+        .app-subtitle {
+            font-size: 0.75rem; color: var(--text-muted);
+            letter-spacing: 2px; text-transform: uppercase;
+            margin-top: 4px;
         }
+
+        /* ── Real-Time Clock ── */
+        .clock-card {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(232,201,107,0.06) 0%, rgba(11,15,30,0.9) 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px 20px;
+            text-align: center;
+            animation: fadeUp 0.6s 0.2s ease both;
+            position: relative; overflow: hidden;
+        }
+        .clock-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(232,201,107,0.5), transparent);
+        }
+        .clock-label { font-size: 0.7rem; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+        #live-clock {
+            font-family: 'Cinzel', serif;
+            font-size: 2.4rem; font-weight: 600;
+            color: var(--gold-bright);
+            text-shadow: 0 0 20px rgba(255,215,0,0.4);
+            letter-spacing: 4px;
+            line-height: 1;
+        }
+        #live-date { font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; }
+        #hijri-date { font-size: 0.8rem; color: var(--gold); opacity: 0.8; margin-top: 2px; }
+
+        /* ── Location ── */
+        #loc-text {
+            font-size: 0.75rem; color: var(--teal);
+            letter-spacing: 1px; text-align: center;
+            padding: 8px 16px;
+            background: rgba(0,201,167,0.06);
+            border: 1px solid rgba(0,201,167,0.15);
+            border-radius: 50px;
+            width: fit-content;
+            animation: fadeUp 0.6s 0.3s ease both;
+        }
+
+        /* ── Prayer Times Section ── */
+        .section-label {
+            width: 100%;
+            display: flex; align-items: center; gap: 10px;
+            animation: fadeUp 0.6s 0.4s ease both;
+        }
+        .section-label span {
+            font-size: 0.7rem; letter-spacing: 2px; color: var(--text-muted);
+            text-transform: uppercase; white-space: nowrap;
+        }
+        .section-label::before, .section-label::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border));
+        }
+        .section-label::after { background: linear-gradient(90deg, var(--border), transparent); }
+
+        /* Timer Cards */
+        .timer-grid { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; animation: fadeUp 0.6s 0.5s ease both; }
 
         .timer-card {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
+            background: var(--card2);
+            border-radius: 18px; padding: 18px 14px;
+            border: 1px solid var(--border);
+            text-align: center; position: relative; overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .timer-card:active { transform: scale(0.97); }
+        .timer-card::before {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+        }
+        .timer-card.sehri::before { background: linear-gradient(90deg, transparent, var(--teal), transparent); }
+        .timer-card.iftar::before { background: linear-gradient(90deg, transparent, var(--red), transparent); }
+
+        .timer-card.sehri { box-shadow: 0 4px 24px rgba(0,201,167,0.08); }
+        .timer-card.iftar { box-shadow: 0 4px 24px rgba(255,107,107,0.08); }
+
+        .card-icon { font-size: 1.4rem; margin-bottom: 6px; }
+        .label { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 1px; display: block; margin-bottom: 6px; }
+        .time { font-size: 1.5rem; font-weight: 700; display: block; line-height: 1.1; }
+        #sehri-display { color: var(--teal); text-shadow: 0 0 12px rgba(0,201,167,0.4); }
+        #iftar-display { color: var(--red); text-shadow: 0 0 12px rgba(255,107,107,0.4); }
+
+        .countdown-tag {
+            font-size: 0.65rem; color: var(--text-muted);
+            background: rgba(255,255,255,0.04);
+            border-radius: 50px; padding: 3px 8px;
+            display: inline-block; margin-top: 6px;
         }
 
-        .timer-card.sehri { border-bottom: 3px solid var(--neon-green); }
-        .timer-card.iftar { border-bottom: 3px solid var(--neon-red); }
-
-        .label {
-            display: block;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-            opacity: 0.7;
-        }
-
-        .time {
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: block;
-        }
-
-        #sehri-display { color: var(--neon-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
-        #iftar-display { color: var(--neon-red); text-shadow: 0 0 10px rgba(255, 49, 49, 0.3); }
-
-        /* Quran Player Section */
-        .quran-box {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 10px;
-        }
-
-        .play-btn {
-            background: transparent;
-            color: var(--neon-gold);
-            border: 2px solid var(--neon-gold);
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 1rem;
-            cursor: pointer;
+        /* ── Next Alarm Countdown Banner ── */
+        .alarm-banner {
             width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-weight: bold;
-            box-shadow: inset 0 0 10px rgba(255, 204, 0, 0.1);
-            transition: 0.3s;
+            background: linear-gradient(135deg, rgba(232,201,107,0.08), rgba(232,201,107,0.03));
+            border: 1px solid rgba(232,201,107,0.2);
+            border-radius: 16px; padding: 14px 18px;
+            display: flex; align-items: center; gap: 12px;
+            animation: fadeUp 0.6s 0.6s ease both;
+        }
+        .alarm-icon { font-size: 1.5rem; flex-shrink: 0; }
+        .alarm-info { flex: 1; }
+        .alarm-info-label { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+        #next-event-label { font-size: 0.85rem; color: var(--gold); font-weight: 600; }
+        #next-event-countdown { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--gold-bright); letter-spacing: 2px; }
+
+        /* ── All Prayer Times ── */
+        .prayer-grid {
+            width: 100%;
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 20px; overflow: hidden;
+            animation: fadeUp 0.6s 0.7s ease both;
+        }
+        .prayer-grid-title {
+            padding: 12px 18px;
+            font-size: 0.7rem; letter-spacing: 2px; color: var(--text-muted);
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+            background: rgba(232,201,107,0.03);
+        }
+        .prayer-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 11px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: background 0.2s;
+        }
+        .prayer-row:last-child { border-bottom: none; }
+        .prayer-row.active { background: rgba(232,201,107,0.05); }
+        .prayer-name { font-size: 0.85rem; color: var(--text); font-weight: 500; display: flex; align-items: center; gap: 8px; }
+        .prayer-name .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted); flex-shrink: 0; }
+        .prayer-row.active .prayer-name .dot { background: var(--gold); box-shadow: 0 0 6px rgba(232,201,107,0.6); }
+        .prayer-time-val { font-size: 0.85rem; color: var(--text-muted); font-family: 'Cinzel', serif; letter-spacing: 1px; }
+        .prayer-row.active .prayer-time-val { color: var(--gold); }
+
+        /* ── Quran Player ── */
+        .quran-box {
+            width: 100%;
+            background: linear-gradient(145deg, rgba(11,15,30,0.95), rgba(15,22,40,0.95));
+            border: 1px solid var(--border);
+            border-radius: 24px; padding: 20px;
+            animation: fadeUp 0.6s 0.8s ease both;
+            position: relative; overflow: hidden;
+        }
+        .quran-box::before {
+            content: '';
+            position: absolute; top: -30px; right: -30px;
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, rgba(232,201,107,0.08), transparent 70%);
+            border-radius: 50%;
+        }
+        .quran-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .quran-icon { font-size: 1.4rem; }
+        .quran-title { font-size: 0.9rem; font-weight: 600; color: var(--gold); }
+        .quran-meta { font-size: 0.72rem; color: var(--text-muted); }
+
+        /* Surah Selector */
+        .surah-selector {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 0.85rem;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+        }
+        .surah-selector:focus { border-color: rgba(232,201,107,0.4); }
+
+        /* Progress bar */
+        .audio-progress-wrap {
+            width: 100%; margin-bottom: 12px;
+        }
+        .audio-progress-bar {
+            width: 100%; height: 4px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 2px; cursor: pointer;
+            position: relative; overflow: visible;
+        }
+        #audio-fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+            border-radius: 2px; transition: width 0.3s;
+            position: relative;
+        }
+        #audio-fill::after {
+            content: ''; position: absolute;
+            right: -4px; top: 50%; transform: translateY(-50%);
+            width: 10px; height: 10px;
+            background: var(--gold-bright); border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255,215,0,0.6);
+        }
+        .audio-time-row { display: flex; justify-content: space-between; margin-top: 6px; }
+        .audio-time-row span { font-size: 0.68rem; color: var(--text-muted); font-family: 'Cinzel', serif; }
+
+        .play-controls { display: flex; gap: 10px; }
+        .play-btn {
+            background: linear-gradient(135deg, rgba(232,201,107,0.15), rgba(232,201,107,0.05));
+            color: var(--gold);
+            border: 1px solid rgba(232,201,107,0.3);
+            padding: 12px 0;
+            border-radius: 14px;
+            font-size: 0.9rem; cursor: pointer;
+            flex: 1;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .play-btn:hover, .play-btn:active {
+            background: linear-gradient(135deg, rgba(232,201,107,0.3), rgba(232,201,107,0.15));
+            box-shadow: 0 0 20px rgba(232,201,107,0.2);
+            transform: translateY(-1px);
+        }
+        .vol-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 12px 14px;
+            border-radius: 14px;
+            cursor: pointer; font-size: 1rem;
+            transition: all 0.2s;
+        }
+        .vol-btn:hover { color: var(--gold); border-color: rgba(232,201,107,0.3); }
+
+        /* ── Tasbeeh Counter ── */
+        .tasbeeh-card {
+            width: 100%;
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 24px; padding: 20px;
+            text-align: center;
+            animation: fadeUp 0.6s 0.9s ease both;
+        }
+        .tasbeeh-title { font-size: 0.7rem; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 14px; }
+        .tasbeeh-dhikr { font-size: 1.1rem; color: var(--gold); font-weight: 600; margin-bottom: 4px; }
+        .tasbeeh-arabic { font-size: 1.4rem; color: var(--text); direction: rtl; margin-bottom: 16px; opacity: 0.8; }
+        #tasbeeh-count {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem; font-weight: 700;
+            color: var(--gold-bright);
+            text-shadow: 0 0 30px rgba(255,215,0,0.3);
+            line-height: 1; margin-bottom: 4px;
+        }
+        #tasbeeh-target { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 16px; }
+        .tasbeeh-ring {
+            width: 120px; height: 120px;
+            margin: 0 auto 16px;
+            position: relative;
+        }
+        .tasbeeh-ring svg { transform: rotate(-90deg); }
+        .tasbeeh-ring circle { fill: none; stroke-width: 5; stroke-linecap: round; }
+        .ring-bg { stroke: rgba(255,255,255,0.06); }
+        #ring-fill { stroke: var(--gold); stroke-dasharray: 345; stroke-dashoffset: 345; transition: stroke-dashoffset 0.3s; }
+        .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+        .tasbeeh-tap-btn {
+            width: 100%; padding: 16px;
+            background: linear-gradient(135deg, rgba(232,201,107,0.12), rgba(232,201,107,0.04));
+            border: 1px solid rgba(232,201,107,0.25);
+            border-radius: 16px;
+            color: var(--gold); font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.15s;
+            font-family: 'Hind Siliguri', sans-serif;
+            letter-spacing: 1px;
+            position: relative; overflow: hidden;
+        }
+        .tasbeeh-tap-btn:active { transform: scale(0.97); background: rgba(232,201,107,0.2); }
+        .tasbeeh-controls { display: flex; gap: 8px; margin-top: 10px; }
+        .tasbeeh-ctrl-btn {
+            flex: 1; padding: 10px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 12px; color: var(--text-muted);
+            font-size: 0.8rem; cursor: pointer;
+            font-family: 'Hind Siliguri', sans-serif;
+            transition: all 0.2s;
+        }
+        .tasbeeh-ctrl-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+
+        /* ── Dua of the Day ── */
+        .dua-card {
+            width: 100%;
+            background: linear-gradient(145deg, rgba(96,165,250,0.05), rgba(11,15,30,0.9));
+            border: 1px solid rgba(96,165,250,0.15);
+            border-radius: 20px; padding: 20px;
+            animation: fadeUp 0.6s 1.0s ease both;
+        }
+        .dua-card-title { font-size: 0.7rem; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+        .dua-arabic { font-size: 1.3rem; direction: rtl; text-align: right; color: var(--gold); line-height: 2; margin-bottom: 10px; font-weight: 400; }
+        .dua-bengali { font-size: 0.85rem; color: var(--text); line-height: 1.7; margin-bottom: 8px; }
+        .dua-ref { font-size: 0.7rem; color: var(--text-muted); }
+        .dua-nav { display: flex; gap: 8px; margin-top: 14px; }
+        .dua-nav-btn {
+            flex: 1; padding: 9px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 10px; color: var(--text-muted);
+            font-size: 0.8rem; cursor: pointer;
+            font-family: 'Hind Siliguri', sans-serif;
+            transition: all 0.2s;
+        }
+        .dua-nav-btn:hover { color: var(--blue); border-color: rgba(96,165,250,0.3); }
+
+        /* ── Footer ── */
+        .footer { font-size: 0.68rem; color: var(--text-muted); letter-spacing: 2px; text-align: center; padding: 8px 0; }
+        .footer span { color: var(--gold); opacity: 0.7; }
+
+        /* ── Ripple / Tap Animation ── */
+        @keyframes ripple {
+            0% { transform: scale(0); opacity: 0.4; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+        .ripple-circle {
+            position: absolute; border-radius: 50%;
+            width: 40px; height: 40px;
+            background: rgba(232,201,107,0.3);
+            transform: scale(0);
+            animation: ripple 0.5s ease-out forwards;
+            pointer-events: none;
         }
 
-        .play-btn:hover {
-            background: var(--neon-gold);
-            color: #000;
-            box-shadow: 0 0 20px rgba(255, 204, 0, 0.4);
+        /* ── Animations ── */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(232,201,107,0.2); }
+            50% { box-shadow: 0 0 40px rgba(232,201,107,0.4), 0 0 80px rgba(232,201,107,0.1); }
+        }
+        @keyframes alarm-flash {
+            0%, 100% { background: var(--card2); }
+            50% { background: rgba(232,201,107,0.1); }
+        }
+        .flashing { animation: alarm-flash 0.5s ease infinite; }
+
+        /* ── Volume Slider Modal ── */
+        .vol-overlay {
+            display: none; position: fixed; inset: 0; z-index: 100;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+            align-items: flex-end; justify-content: center;
+        }
+        .vol-overlay.open { display: flex; }
+        .vol-modal {
+            width: 100%; max-width: 480px;
+            background: var(--card2); border-top-left-radius: 24px; border-top-right-radius: 24px;
+            padding: 24px; border-top: 1px solid var(--border);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .vol-modal h3 { font-size: 0.9rem; color: var(--gold); margin-bottom: 16px; letter-spacing: 1px; }
+        input[type=range] {
+            width: 100%; accent-color: var(--gold);
+            height: 4px; cursor: pointer;
+        }
+        .vol-close {
+            width: 100%; margin-top: 16px; padding: 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border);
+            border-radius: 12px; color: var(--text-muted);
+            cursor: pointer; font-family: 'Hind Siliguri', sans-serif;
+            font-size: 0.85rem;
         }
 
-        /* Status Indicator */
-        .status {
-            margin-top: 20px;
-            font-size: 0.7rem;
-            color: var(--neon-blue);
-            opacity: 0.6;
-            letter-spacing: 2px;
-        }
-
-        /* Responsive */
-        @media (max-width: 380px) {
-            .time { font-size: 1.5rem; }
-            h1 { font-size: 1.3rem; }
+        @media (max-width: 360px) {
+            #live-clock { font-size: 2rem; }
+            .time { font-size: 1.3rem; }
+            #tasbeeh-count { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="islamic-header">☪</div>
-    <h1>HappyRamadan</h1>
-    <div id="loc-text">লোকেশন খোঁজা হচ্ছে...</div>
+<div class="stars"></div>
+<div class="pattern-overlay"></div>
+
+<div class="page">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="crescent-wrap"><span class="crescent-icon">☪</span></div>
+        <div class="app-title">HappyRamadan</div>
+        <div class="app-subtitle">রমজানের সঙ্গী অ্যাপ</div>
+    </div>
+
+    <!-- Live Clock -->
+    <div class="clock-card">
+        <div class="clock-label">বর্তমান সময়</div>
+        <div id="live-clock">--:--:--</div>
+        <div id="live-date">লোড হচ্ছে...</div>
+        <div id="hijri-date">হিজরি তারিখ লোড হচ্ছে...</div>
+    </div>
+
+    <!-- Location -->
+    <div id="loc-text">📍 লোকেশন খোঁজা হচ্ছে...</div>
+
+    <!-- Sehri & Iftar -->
+    <div class="section-label"><span>সেহেরি ও ইফতার</span></div>
 
     <div class="timer-grid">
         <div class="timer-card sehri">
-            <span class="label">সেহেরি শেষ (আজ)</span>
-            <span id="sehri-display" class="time">--:-- --</span>
+            <div class="card-icon">🌙</div>
+            <span class="label">সেহেরি শেষ</span>
+            <span id="sehri-display" class="time">--:--</span>
+            <span class="countdown-tag" id="sehri-tag">--</span>
         </div>
         <div class="timer-card iftar">
-            <span class="label">ইফতার শুরু (আজ)</span>
-            <span id="iftar-display" class="time">--:-- --</span>
+            <div class="card-icon">🌅</div>
+            <span class="label">ইফতার শুরু</span>
+            <span id="iftar-display" class="time">--:--</span>
+            <span class="countdown-tag" id="iftar-tag">--</span>
         </div>
     </div>
 
-    <div class="quran-box">
-        <p style="font-size: 0.85rem; margin-bottom: 15px; color: #aaa;">সূরা আর-রহমান • মিশারি রাশিদ</p>
-        <button class="play-btn" onclick="toggleQuran()">
-            <span id="play-icon">▶</span> <span id="btn-text">তিলাওয়াত শুনুন</span>
-        </button>
+    <!-- Next Event Countdown -->
+    <div class="alarm-banner">
+        <div class="alarm-icon">⏳</div>
+        <div class="alarm-info">
+            <div class="alarm-info-label">পরবর্তী ঘটনা</div>
+            <div id="next-event-label">লোড হচ্ছে...</div>
+            <div id="next-event-countdown">--:--:--</div>
+        </div>
     </div>
 
-    <div class="status">Humayun Shariar Himu</div>
+    <!-- All Prayer Times -->
+    <div class="prayer-grid">
+        <div class="prayer-grid-title">আজকের নামাজের সময়সূচি</div>
+        <div class="prayer-row" id="pr-fajr">
+            <div class="prayer-name"><span class="dot"></span>ফজর</div>
+            <div class="prayer-time-val" id="pt-fajr">--:--</div>
+        </div>
+        <div class="prayer-row" id="pr-dhuhr">
+            <div class="prayer-name"><span class="dot"></span>যোহর</div>
+            <div class="prayer-time-val" id="pt-dhuhr">--:--</div>
+        </div>
+        <div class="prayer-row" id="pr-asr">
+            <div class="prayer-name"><span class="dot"></span>আসর</div>
+            <div class="prayer-time-val" id="pt-asr">--:--</div>
+        </div>
+        <div class="prayer-row" id="pr-maghrib">
+            <div class="prayer-name"><span class="dot"></span>মাগরিব</div>
+            <div class="prayer-time-val" id="pt-maghrib">--:--</div>
+        </div>
+        <div class="prayer-row" id="pr-isha">
+            <div class="prayer-name"><span class="dot"></span>এশা</div>
+            <div class="prayer-time-val" id="pt-isha">--:--</div>
+        </div>
+    </div>
+
+    <!-- Quran Player -->
+    <div class="section-label"><span>কুরআন তিলাওয়াত</span></div>
+
+    <div class="quran-box">
+        <div class="quran-header">
+            <span class="quran-icon">📖</span>
+            <div>
+                <div class="quran-title" id="quran-title-display">সূরা আর-রহমান</div>
+                <div class="quran-meta">মিশারি রাশিদ আল-আফাসি</div>
+            </div>
+        </div>
+
+        <select class="surah-selector" id="surahSelect" onchange="changeSurah()">
+            <option value="055">সূরা আর-রহমান (৫৫)</option>
+            <option value="036">সূরা ইয়াসিন (৩৬)</option>
+            <option value="067">সূরা আল-মুলক (৬৭)</option>
+            <option value="002">সূরা আল-বাকারা (২)</option>
+            <option value="018">সূরা আল-কাহফ (১৮)</option>
+            <option value="056">সূরা আল-ওয়াকিয়া (৫৬)</option>
+            <option value="073">সূরা আল-মুজ্জাম্মিল (৭৩)</option>
+            <option value="112">সূরা আল-ইখলাস (১১২)</option>
+        </select>
+
+        <div class="audio-progress-wrap">
+            <div class="audio-progress-bar" id="progressBar" onclick="seekAudio(event)">
+                <div id="audio-fill"></div>
+            </div>
+            <div class="audio-time-row">
+                <span id="audio-current">0:00</span>
+                <span id="audio-duration">0:00</span>
+            </div>
+        </div>
+
+        <div class="play-controls">
+            <button class="play-btn" id="mainPlayBtn" onclick="toggleQuran()">
+                <span id="play-icon">▶</span>
+                <span id="btn-text">তিলাওয়াত শুনুন</span>
+            </button>
+            <button class="vol-btn" onclick="openVolumeModal()" title="ভলিউম">🔊</button>
+        </div>
+    </div>
+
+    <!-- Tasbeeh Counter -->
+    <div class="section-label"><span>তাসবীহ কাউন্টার</span></div>
+
+    <div class="tasbeeh-card">
+        <div class="tasbeeh-title">ডিজিটাল তাসবীহ</div>
+
+        <select class="surah-selector" id="dhikrSelect" onchange="changeDhikr()" style="margin-bottom:12px">
+            <option value="0">সুবহানআল্লাহ — سُبْحَانَ اللّٰهِ</option>
+            <option value="1">আলহামদুলিল্লাহ — اَلْحَمْدُ لِلّٰهِ</option>
+            <option value="2">আল্লাহু আকবার — اَللّٰهُ أَكْبَرُ</option>
+            <option value="3">লা ইলাহা ইল্লাল্লাহ — لَا إِلٰهَ إِلَّا اللّٰهُ</option>
+            <option value="4">আস্তাগফিরুল্লাহ — أَسْتَغْفِرُ اللّٰهَ</option>
+        </select>
+
+        <div class="tasbeeh-ring">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle class="ring-bg" cx="60" cy="60" r="55"/>
+                <circle id="ring-fill" cx="60" cy="60" r="55"/>
+            </svg>
+            <div class="ring-center">
+                <div id="tasbeeh-count">0</div>
+                <div id="tasbeeh-target">/ 33</div>
+            </div>
+        </div>
+
+        <button class="tasbeeh-tap-btn" onclick="tapTasbeeh(event)">তাসবীহ করুন</button>
+        <div class="tasbeeh-controls">
+            <button class="tasbeeh-ctrl-btn" onclick="resetTasbeeh()">রিসেট</button>
+            <button class="tasbeeh-ctrl-btn" onclick="changeTasbeehTarget()">লক্ষ্য পরিবর্তন</button>
+            <button class="tasbeeh-ctrl-btn" id="tasbeeh-total-btn">মোট: 0</button>
+        </div>
+    </div>
+
+    <!-- Dua of the Day -->
+    <div class="section-label"><span>দৈনন্দিন দোয়া</span></div>
+
+    <div class="dua-card">
+        <div class="dua-card-title">📿 <span>রমজানের বিশেষ দোয়া</span></div>
+        <div id="dua-arabic" class="dua-arabic"></div>
+        <div id="dua-bengali" class="dua-bengali"></div>
+        <div id="dua-ref" class="dua-ref"></div>
+        <div class="dua-nav">
+            <button class="dua-nav-btn" onclick="prevDua()">◀ আগের দোয়া</button>
+            <button class="dua-nav-btn" onclick="nextDua()">পরের দোয়া ▶</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">Made with ❤ by <span>Humayun Shariar Himu</span></div>
+</div>
+
+<!-- Volume Modal -->
+<div class="vol-overlay" id="volOverlay" onclick="closeVolumeModal(event)">
+    <div class="vol-modal">
+        <h3>🔊 ভলিউম নিয়ন্ত্রণ</h3>
+        <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:10px;">তিলাওয়াত ভলিউম</p>
+        <input type="range" id="volSlider" min="0" max="100" value="100" oninput="setVolume(this.value)">
+        <button class="vol-close" onclick="closeVolumeModal()">বন্ধ করুন</button>
+    </div>
 </div>
 
 <audio id="quranPlayer" src="https://server8.mp3quran.net/afs/055.mp3" preload="auto"></audio>
 <audio id="alarmPlayer" src="https://github.com/HumayunShariarHimu/HappyRamadan/raw/refs/heads/main/AllahuTone.mp3" preload="auto"></audio>
 
 <script>
-    let sehriTime = "";
-    let iftarTime = "";
+    /* ═══════════════ STATE ═══════════════ */
+    let sehriTime = "", iftarTime = "";
     let alertStatus = { thirty: false, sehri: false, iftar: false };
+    let allTimings = {};
 
-    // ১. লোকেশন ও সময় আনা
+    /* Tasbeeh */
+    const dhikrData = [
+        { bn: 'সুবহানআল্লাহ', ar: 'سُبْحَانَ اللّٰهِ', target: 33 },
+        { bn: 'আলহামদুলিল্লাহ', ar: 'اَلْحَمْدُ لِلّٰهِ', target: 33 },
+        { bn: 'আল্লাহু আকবার', ar: 'اَللّٰهُ أَكْبَرُ', target: 34 },
+        { bn: 'লা ইলাহা ইল্লাল্লাহ', ar: 'لَا إِلٰهَ إِلَّا اللّٰهُ', target: 100 },
+        { bn: 'আস্তাগফিরুল্লাহ', ar: 'أَسْتَغْفِرُ اللّٰهَ', target: 100 }
+    ];
+    let tasbeehCount = parseInt(localStorage.getItem('tb_count') || '0');
+    let tasbeehTotal = parseInt(localStorage.getItem('tb_total') || '0');
+    let currentDhikrIdx = 0;
+    let tasbeehTarget = dhikrData[0].target;
+
+    /* Duas */
+    const duas = [
+        { ar: 'اللَّهُمَّ إِنَّكَ عَفُوٌّ كَرِيمٌ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي', bn: 'হে আল্লাহ! নিশ্চয়ই তুমি ক্ষমাশীল, মহানুভব। তুমি ক্ষমা করতে ভালোবাসো। সুতরাং আমাকে ক্ষমা করে দাও।', ref: '— তিরমিযী, হাদিস ৩৫১৩ (লাইলাতুল কদরের দোয়া)' },
+        { ar: 'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', bn: 'হে আমাদের রব! আমাদের দুনিয়ায় কল্যাণ দাও এবং আখেরাতেও কল্যাণ দাও। আর জাহান্নামের আযাব থেকে আমাদের রক্ষা করো।', ref: '— সূরা বাকারা, ২:২০১' },
+        { ar: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ', bn: 'হে আল্লাহ! আমি তোমার কাছে জান্নাত চাই এবং জাহান্নাম থেকে তোমার কাছে আশ্রয় প্রার্থনা করি।', ref: '— আবু দাউদ' },
+        { ar: 'اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي وَاهْدِنِي وَارْزُقْنِي', bn: 'হে আল্লাহ! আমাকে ক্ষমা করো, আমার প্রতি রহম করো, আমাকে হেদায়েত দাও এবং আমাকে রিজিক দাও।', ref: '— মুসলিম' },
+        { ar: 'سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ', bn: 'হে আল্লাহ! তুমি পবিত্র ও প্রশংসিত। আমি সাক্ষ্য দিচ্ছি তুমি ছাড়া কোনো ইলাহ নেই। আমি তোমার কাছে ক্ষমা চাই এবং তোমার দিকে তওবা করি।', ref: '— তিরমিযী' },
+        { ar: 'اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ', bn: 'হে আল্লাহ! আমি নিজের উপর অনেক জুলুম করেছি। তুমি ছাড়া কেউ গুনাহ মাফ করতে পারে না। অতএব তোমার পক্ষ থেকে আমাকে মাফ করে দাও।', ref: '— বুখারি ও মুসলিম' }
+    ];
+    let currentDuaIdx = 0;
+
+    /* Surah names */
+    const surahNames = {
+        '055': 'সূরা আর-রহমান', '036': 'সূরা ইয়াসিন',
+        '067': 'সূরা আল-মুলক', '002': 'সূরা আল-বাকারা',
+        '018': 'সূরা আল-কাহফ', '056': 'সূরা আল-ওয়াকিয়া',
+        '073': 'সূরা আল-মুজ্জাম্মিল', '112': 'সূরা আল-ইখলাস'
+    };
+
+    /* ═══════════════ CLOCK ═══════════════ */
+    const bnDays = ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+    const bnMonths = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+
+    function updateClock() {
+        const now = new Date();
+        const h = now.getHours().toString().padStart(2,'0');
+        const m = now.getMinutes().toString().padStart(2,'0');
+        const s = now.getSeconds().toString().padStart(2,'0');
+        document.getElementById('live-clock').textContent = `${h}:${m}:${s}`;
+        document.getElementById('live-date').textContent =
+            `${bnDays[now.getDay()]}, ${now.getDate()} ${bnMonths[now.getMonth()]} ${now.getFullYear()}`;
+    }
+
+    function loadHijriDate() {
+        const today = new Date();
+        const d = today.getDate(), m = today.getMonth()+1, y = today.getFullYear();
+        fetch(`https://api.aladhan.com/v1/gToH?date=${d}-${m}-${y}`)
+            .then(r => r.json()).then(data => {
+                const h = data.data.hijri;
+                document.getElementById('hijri-date').textContent =
+                    `${h.day} ${h.month.ar} ${h.year} হিজরি`;
+            }).catch(() => {});
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+    loadHijriDate();
+
+    /* ═══════════════ LOCATION & PRAYER TIMES ═══════════════ */
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async (pos) => {
             const { latitude, longitude } = pos.coords;
-            document.getElementById('loc-text').innerText = "আপনার এরিয়া সেট করা হয়েছে";
-            
+            document.getElementById('loc-text').innerText = "📍 আপনার লোকেশন সেট হয়েছে";
             try {
                 const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=1`);
                 const data = await res.json();
                 const t = data.data.timings;
-                
+                allTimings = t;
                 sehriTime = t.Imsak;
                 iftarTime = t.Maghrib;
 
                 document.getElementById('sehri-display').innerText = format12Hour(sehriTime);
                 document.getElementById('iftar-display').innerText = format12Hour(iftarTime);
 
+                // All prayer times
+                document.getElementById('pt-fajr').innerText = format12Hour(t.Fajr);
+                document.getElementById('pt-dhuhr').innerText = format12Hour(t.Dhuhr);
+                document.getElementById('pt-asr').innerText = format12Hour(t.Asr);
+                document.getElementById('pt-maghrib').innerText = format12Hour(t.Maghrib);
+                document.getElementById('pt-isha').innerText = format12Hour(t.Isha);
+
                 setInterval(checkAlarmSystem, 1000);
+                setInterval(updateCountdownTags, 1000);
+                setInterval(highlightCurrentPrayer, 60000);
+                updateCountdownTags();
+                highlightCurrentPrayer();
             } catch (err) {
-                document.getElementById('loc-text').innerText = "ইন্টারনেট কানেকশন চেক করুন";
+                document.getElementById('loc-text').innerText = "⚠ ইন্টারনেট কানেকশন চেক করুন";
             }
         }, () => {
-            document.getElementById('loc-text').innerText = "GPS অনুমতি দিন";
+            document.getElementById('loc-text').innerText = "⚠ GPS অনুমতি দিন";
         });
     }
 
-    // ২. এলার্ম চেক লজিক
+    /* ═══════════════ ALARM SYSTEM (ORIGINAL) ═══════════════ */
     function checkAlarmSystem() {
         const now = new Date();
-        const currentHM = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
-
-        // সেহেরির ৩০ মিনিট আগের হিসাব
+        const currentHM = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
         const [sH, sM] = sehriTime.split(':').map(Number);
-        const sDate = new Date();
-        sDate.setHours(sH, sM, 0);
+        const sDate = new Date(); sDate.setHours(sH, sM, 0);
         const thirtyDate = new Date(sDate.getTime() - 30 * 60000);
-        const thirtyHM = thirtyDate.getHours().toString().padStart(2, '0') + ":" + thirtyDate.getMinutes().toString().padStart(2, '0');
-
-        // চেক ৩টি এলার্ম
+        const thirtyHM = thirtyDate.getHours().toString().padStart(2,'0') + ":" + thirtyDate.getMinutes().toString().padStart(2,'0');
         if (currentHM === thirtyHM && !alertStatus.thirty) {
             triggerNeonAlarm("সেহেরির ৩০ মিনিট বাকি!");
             alertStatus.thirty = true;
         }
         if (currentHM === sehriTime && !alertStatus.sehri) {
-            triggerNeonAlarm("সেহেরির সময় শেষ!");
+            triggerNeonAlarm("সেহেরির সময় শেষ!");
             alertStatus.sehri = true;
         }
         if (currentHM === iftarTime && !alertStatus.iftar) {
-            triggerNeonAlarm("ইফতারের সময় হয়েছে!");
+            triggerNeonAlarm("ইফতারের সময় হয়েছে!");
             alertStatus.iftar = true;
         }
     }
 
-    // ৩. এলার্ম ও ভলিউম কন্ট্রোল
     function triggerNeonAlarm(msg) {
         const quran = document.getElementById('quranPlayer');
         const alarm = document.getElementById('alarmPlayer');
-        
-        // কুরআন চললে ভলিউম কমিয়ে এলার্ম বাজানো
         if (!quran.paused) quran.volume = 0.2;
-        
         alarm.play().catch(e => console.log("User Interaction Required"));
-        
+        document.querySelector('.container, .page').classList.add('flashing');
+        setTimeout(() => document.querySelector('.page').classList.remove('flashing'), 3000);
         alert(msg);
-        
-        // এলার্ট বন্ধ করলে ভলিউম স্বাভাবিক করা
         if (!quran.paused) quran.volume = 1.0;
     }
 
-    // ৪. তিলাওয়াত প্লে/পজ
+    /* ═══════════════ QURAN PLAYER (ORIGINAL + ENHANCED) ═══════════════ */
     function toggleQuran() {
         const audio = document.getElementById('quranPlayer');
         const btnText = document.getElementById('btn-text');
         const playIcon = document.getElementById('play-icon');
-
         if (audio.paused) {
             audio.play();
-            btnText.innerText = "তিলাওয়াত থামান";
+            btnText.innerText = "তিলাওয়াত থামান";
             playIcon.innerText = "⏸";
         } else {
             audio.pause();
-            btnText.innerText = "তিলাওয়াত শুনুন";
+            btnText.innerText = "তিলাওয়াত শুনুন";
             playIcon.innerText = "▶";
         }
     }
 
-    // ৫. ১২ ঘণ্টার ফরম্যাট (AM/PM)
+    function changeSurah() {
+        const sel = document.getElementById('surahSelect');
+        const code = sel.value;
+        const audio = document.getElementById('quranPlayer');
+        const wasPlaying = !audio.paused;
+        audio.src = `https://server8.mp3quran.net/afs/${code}.mp3`;
+        document.getElementById('quran-title-display').textContent = surahNames[code] || 'সূরা';
+        document.getElementById('play-icon').innerText = "▶";
+        document.getElementById('btn-text').innerText = "তিলাওয়াত শুনুন";
+        document.getElementById('audio-fill').style.width = '0%';
+        if (wasPlaying) { audio.play(); document.getElementById('play-icon').innerText = "⏸"; document.getElementById('btn-text').innerText = "তিলাওয়াত থামান"; }
+    }
+
+    function seekAudio(e) {
+        const audio = document.getElementById('quranPlayer');
+        if (!audio.duration) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const ratio = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = ratio * audio.duration;
+    }
+
+    function setVolume(val) {
+        document.getElementById('quranPlayer').volume = val / 100;
+    }
+
+    function openVolumeModal() { document.getElementById('volOverlay').classList.add('open'); }
+    function closeVolumeModal(e) {
+        if (!e || e.target === document.getElementById('volOverlay') || e.currentTarget.tagName === 'BUTTON')
+            document.getElementById('volOverlay').classList.remove('open');
+    }
+
+    const qAudio = document.getElementById('quranPlayer');
+    qAudio.addEventListener('timeupdate', () => {
+        if (!qAudio.duration) return;
+        const pct = (qAudio.currentTime / qAudio.duration) * 100;
+        document.getElementById('audio-fill').style.width = pct + '%';
+        document.getElementById('audio-current').textContent = fmtTime(qAudio.currentTime);
+        document.getElementById('audio-duration').textContent = fmtTime(qAudio.duration);
+    });
+    function fmtTime(s) {
+        const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+        return `${m}:${sec.toString().padStart(2,'0')}`;
+    }
+
+    /* ═══════════════ FORMAT (ORIGINAL) ═══════════════ */
     function format12Hour(t) {
         let [h, m] = t.split(':');
         const suffix = h >= 12 ? 'PM' : 'AM';
@@ -284,9 +886,140 @@
         return `${h}:${m} ${suffix}`;
     }
 
-    // নোটিফিকেশন পারমিশন
+    /* ═══════════════ COUNTDOWN TAGS ═══════════════ */
+    function timeToMinutes(hhmm) {
+        const [h, m] = hhmm.split(':').map(Number);
+        return h * 60 + m;
+    }
+
+    function updateCountdownTags() {
+        if (!sehriTime || !iftarTime) return;
+        const now = new Date();
+        const nowM = now.getHours() * 60 + now.getMinutes();
+        const sM = timeToMinutes(sehriTime);
+        const iM = timeToMinutes(iftarTime);
+
+        // Sehri tag
+        let diffS = sM - nowM;
+        if (diffS < 0) diffS += 1440;
+        document.getElementById('sehri-tag').textContent = diffS <= 60 ? `${diffS} মিনিট বাকি` : formatHM(diffS) + ' বাকি';
+
+        // Iftar tag
+        let diffI = iM - nowM;
+        if (diffI < 0) diffI += 1440;
+        document.getElementById('iftar-tag').textContent = diffI <= 60 ? `${diffI} মিনিট বাকি` : formatHM(diffI) + ' বাকি';
+
+        // Next event banner
+        const nowS = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+        const sSecsAbs = sM * 60, iSecsAbs = iM * 60;
+        let nextLabel = '', nextDiff = 0;
+        const diffSS = sSecsAbs - nowS, diffIS = iSecsAbs - nowS;
+        if (diffIS > 0 && diffIS < (diffSS > 0 ? diffSS : 999999)) {
+            nextLabel = '🌅 ইফতার'; nextDiff = diffIS;
+        } else if (diffSS > 0) {
+            nextLabel = '🌙 সেহেরি শেষ'; nextDiff = diffSS;
+        } else {
+            nextLabel = '🌅 ইফতার'; nextDiff = (iSecsAbs + 86400) - nowS;
+        }
+        document.getElementById('next-event-label').textContent = nextLabel;
+        const hh = Math.floor(nextDiff / 3600);
+        const mm = Math.floor((nextDiff % 3600) / 60);
+        const ss = nextDiff % 60;
+        document.getElementById('next-event-countdown').textContent =
+            `${hh.toString().padStart(2,'0')}:${mm.toString().padStart(2,'0')}:${ss.toString().padStart(2,'0')}`;
+    }
+
+    function formatHM(mins) {
+        const h = Math.floor(mins / 60), m = mins % 60;
+        return h > 0 ? `${h} ঘ ${m} মি` : `${m} মি`;
+    }
+
+    /* ═══════════════ HIGHLIGHT CURRENT PRAYER ═══════════════ */
+    const prayerIds = ['fajr','dhuhr','asr','maghrib','isha'];
+    const prayerKeys = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+    function highlightCurrentPrayer() {
+        if (!allTimings.Fajr) return;
+        const now = new Date();
+        const nowM = now.getHours() * 60 + now.getMinutes();
+        let activeIdx = -1;
+        const pMins = prayerKeys.map(k => timeToMinutes(allTimings[k]));
+        for (let i = pMins.length - 1; i >= 0; i--) {
+            if (nowM >= pMins[i]) { activeIdx = i; break; }
+        }
+        prayerIds.forEach((id, idx) => {
+            const row = document.getElementById('pr-' + id);
+            row.classList.toggle('active', idx === activeIdx);
+        });
+    }
+
+    /* ═══════════════ TASBEEH ═══════════════ */
+    function tapTasbeeh(e) {
+        tasbeehCount++;
+        tasbeehTotal++;
+        localStorage.setItem('tb_count', tasbeehCount);
+        localStorage.setItem('tb_total', tasbeehTotal);
+
+        if (tasbeehCount > tasbeehTarget) tasbeehCount = 1;
+        updateTasbeehUI();
+
+        // Ripple
+        const btn = e.currentTarget;
+        const rect = btn.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple-circle';
+        ripple.style.left = (e.clientX - rect.left - 20) + 'px';
+        ripple.style.top = (e.clientY - rect.top - 20) + 'px';
+        btn.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+
+        if (tasbeehCount === tasbeehTarget) {
+            navigator.vibrate && navigator.vibrate([100, 50, 100]);
+        }
+    }
+
+    function resetTasbeeh() { tasbeehCount = 0; localStorage.setItem('tb_count', 0); updateTasbeehUI(); }
+
+    function changeDhikr() {
+        currentDhikrIdx = parseInt(document.getElementById('dhikrSelect').value);
+        tasbeehTarget = dhikrData[currentDhikrIdx].target;
+        tasbeehCount = 0;
+        localStorage.setItem('tb_count', 0);
+        updateTasbeehUI();
+    }
+
+    function changeTasbeehTarget() {
+        const val = prompt('নতুন লক্ষ্য সংখ্যা লিখুন:', tasbeehTarget);
+        if (val && !isNaN(val) && parseInt(val) > 0) {
+            tasbeehTarget = parseInt(val);
+            tasbeehCount = 0;
+            updateTasbeehUI();
+        }
+    }
+
+    function updateTasbeehUI() {
+        document.getElementById('tasbeeh-count').textContent = tasbeehCount;
+        document.getElementById('tasbeeh-target').textContent = '/ ' + tasbeehTarget;
+        document.getElementById('tasbeeh-total-btn').textContent = 'মোট: ' + tasbeehTotal;
+        const circumference = 345;
+        const offset = circumference - (tasbeehCount / tasbeehTarget) * circumference;
+        document.getElementById('ring-fill').style.strokeDashoffset = Math.max(0, offset);
+    }
+
+    updateTasbeehUI();
+
+    /* ═══════════════ DUA ═══════════════ */
+    function showDua(idx) {
+        const d = duas[idx];
+        document.getElementById('dua-arabic').textContent = d.ar;
+        document.getElementById('dua-bengali').textContent = d.bn;
+        document.getElementById('dua-ref').textContent = d.ref;
+    }
+    function nextDua() { currentDuaIdx = (currentDuaIdx + 1) % duas.length; showDua(currentDuaIdx); }
+    function prevDua() { currentDuaIdx = (currentDuaIdx - 1 + duas.length) % duas.length; showDua(currentDuaIdx); }
+    showDua(0);
+
+    /* Notification */
     if (Notification.permission !== "granted") Notification.requestPermission();
 </script>
-
 </body>
 </html>
