@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadan Neon Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #05070a;
+            --card-bg: #0f172a;
+            --neon-gold: #ffcc00;
+            --neon-blue: #00d4ff;
+            --neon-green: #39ff14;
+            --neon-red: #ff3131;
+            --shadow-gold: 0 0 15px #ffcc00, 0 0 5px #ffcc00;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 204, 0, 0.05) 0%, transparent 50%);
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 450px;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        /* Islamic Moon & Stars Icon */
+        .islamic-header {
+            font-size: 2.5rem;
+            color: var(--neon-gold);
+            text-shadow: var(--shadow-gold);
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin: 0;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        #loc-text {
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        /* Timer Grid */
+        .timer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .timer-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+
+        .timer-card.sehri { border-bottom: 3px solid var(--neon-green); }
+        .timer-card.iftar { border-bottom: 3px solid var(--neon-red); }
+
+        .label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+
+        .time {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        #sehri-display { color: var(--neon-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
+        #iftar-display { color: var(--neon-red); text-shadow: 0 0 10px rgba(255, 49, 49, 0.3); }
+
+        /* Quran Player Section */
+        .quran-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        .play-btn {
+            background: transparent;
+            color: var(--neon-gold);
+            border: 2px solid var(--neon-gold);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-weight: bold;
+            box-shadow: inset 0 0 10px rgba(255, 204, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .play-btn:hover {
+            background: var(--neon-gold);
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.4);
+        }
+
+        /* Status Indicator */
+        .status {
+            margin-top: 20px;
+            font-size: 0.7rem;
+            color: var(--neon-blue);
+            opacity: 0.6;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .time { font-size: 1.5rem; }
+            h1 { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="islamic-header">☪</div>
+    <h1>HappyRamadan</h1>
+    <div id="loc-text">লোকেশন খোঁজা হচ্ছে...</div>
+
+    <div class="timer-grid">
+        <div class="timer-card sehri">
+            <span class="label">সেহেরি শেষ (আজ)</span>
+            <span id="sehri-display" class="time">--:-- --</span>
+        </div>
+        <div class="timer-card iftar">
+            <span class="label">ইফতার শুরু (আজ)</span>
+            <span id="iftar-display" class="time">--:-- --</span>
+        </div>
+    </div>
+
+    <div class="quran-box">
+        <p style="font-size: 0.85rem; margin-bottom: 15px; color: #aaa;">সূরা আর-রহমান • মিশারি রাশিদ</p>
+        <button class="play-btn" onclick="toggleQuran()">
+            <span id="play-icon">▶</span> <span id="btn-text">তিলাওয়াত শুনুন</span>
+        </button>
+    </div>
+
+    <div class="status">Humayun Shariar Himu</div>
+</div>
+
+<audio id="quranPlayer" src="https://server8.mp3quran.net/afs/055.mp3" preload="auto"></audio>
+<audio id="alarmPlayer" src="https://github.com/HumayunShariarHimu/HappyRamadan/raw/refs/heads/main/AllahuTone.mp3" preload="auto"></audio>
+
+<script>
+    let sehriTime = "";
+    let iftarTime = "";
+    let alertStatus = { thirty: false, sehri: false, iftar: false };
+
+    // ১. লোকেশন ও সময় আনা
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            const { latitude, longitude } = pos.coords;
+            document.getElementById('loc-text').innerText = "আপনার এরিয়া সেট করা হয়েছে";
+            
+            try {
+                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=1`);
+                const data = await res.json();
+                const t = data.data.timings;
+                
+                sehriTime = t.Imsak;
+                iftarTime = t.Maghrib;
+
+                document.getElementById('sehri-display').innerText = format12Hour(sehriTime);
+                document.getElementById('iftar-display').innerText = format12Hour(iftarTime);
+
+                setInterval(checkAlarmSystem, 1000);
+            } catch (err) {
+                document.getElementById('loc-text').innerText = "ইন্টারনেট কানেকশন চেক করুন";
+            }
+        }, () => {
+            document.getElementById('loc-text').innerText = "GPS অনুমতি দিন";
+        });
+    }
+
+    // ২. এলার্ম চেক লজিক
+    function checkAlarmSystem() {
+        const now = new Date();
+        const currentHM = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+
+        // সেহেরির ৩০ মিনিট আগের হিসাব
+        const [sH, sM] = sehriTime.split(':').map(Number);
+        const sDate = new Date();
+        sDate.setHours(sH, sM, 0);
+        const thirtyDate = new Date(sDate.getTime() - 30 * 60000);
+        const thirtyHM = thirtyDate.getHours().toString().padStart(2, '0') + ":" + thirtyDate.getMinutes().toString().padStart(2, '0');
+
+        // চেক ৩টি এলার্ম
+        if (currentHM === thirtyHM && !alertStatus.thirty) {
+            triggerNeonAlarm("সেহেরির ৩০ মিনিট বাকি!");
+            alertStatus.thirty = true;
+        }
+        if (currentHM === sehriTime && !alertStatus.sehri) {
+            triggerNeonAlarm("সেহেরির সময় শেষ!");
+            alertStatus.sehri = true;
+        }
+        if (currentHM === iftarTime && !alertStatus.iftar) {
+            triggerNeonAlarm("ইফতারের সময় হয়েছে!");
+            alertStatus.iftar = true;
+        }
+    }
+
+    // ৩. এলার্ম ও ভলিউম কন্ট্রোল
+    function triggerNeonAlarm(msg) {
+        const quran = document.getElementById('quranPlayer');
+        const alarm = document.getElementById('alarmPlayer');
+        
+        // কুরআন চললে ভলিউম কমিয়ে এলার্ম বাজানো
+        if (!quran.paused) quran.volume = 0.2;
+        
+        alarm.play().catch(e => console.log("User Interaction Required"));
+        
+        alert(msg);
+        
+        // এলার্ট বন্ধ করলে ভলিউম স্বাভাবিক করা
+        if (!quran.paused) quran.volume = 1.0;
+    }
+
+    // ৪. তিলাওয়াত প্লে/পজ
+    function toggleQuran() {
+        const audio = document.getElementById('quranPlayer');
+        const btnText = document.getElementById('btn-text');
+        const playIcon = document.getElementById('play-icon');
+
+        if (audio.paused) {
+            audio.play();
+            btnText.innerText = "তিলাওয়াত থামান";
+            playIcon.innerText = "⏸";
+        } else {
+            audio.pause();
+            btnText.innerText = "তিলাওয়াত শুনুন";
+            playIcon.innerText = "▶";
+        }
+    }
+
+    // ৫. ১২ ঘণ্টার ফরম্যাট (AM/PM)
+    function format12Hour(t) {
+        let [h, m] = t.split(':');
+        const suffix = h >= 12 ? 'PM' : 'AM';
+        h = h % 12 || 12;
+        return `${h}:${m} ${suffix}`;
+    }
+
+    // নোটিফিকেশন পারমিশন
+    if (Notification.permission !== "granted") Notification.requestPermission();
+</script>
+
+</body>
+</html>
